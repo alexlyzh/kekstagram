@@ -32,34 +32,23 @@ const getRandomInteger = (min, max) => {
 
 const isValidLength = (string, maxLength) => string.length <= maxLength;
 
-const createComments = (quantity) => {
-  let commentsCounter = 0;
-  return new Array(quantity).fill(null).map(() => (
-    {
-      id: ++commentsCounter,
-      avatar: `img/avatar-${getRandomInteger(1, 6)}.svg`,
-      message: PHRASES[getRandomInteger(1, PHRASES.length - 1)],
-      name: NAMES[getRandomInteger(1, NAMES.length - 1)],
-    }));
-};
+const createComments = (quantity) => new Array(quantity).fill(null).map((comment, index) => (
+  {
+    id: index + 1,
+    avatar: `img/avatar-${getRandomInteger(1, 6)}.svg`,
+    message: PHRASES[getRandomInteger(1, PHRASES.length - 1)],
+    name: NAMES[getRandomInteger(1, NAMES.length - 1)],
+  }));
 
-const createPhotoDescription = (quantity) => {
-  let photoCounter = 1;
-  const photoArray = [];
-  while (photoCounter <= quantity) {
-    photoArray.push({
-      id: photoCounter,
-      url: `photos/${photoCounter}.jpg`,
-      description: 'Далеко-далеко за словесными горами в стране гласных и согласных живут рыбные тексты',
-      likes: getRandomInteger(15,200),
-      comments: createComments(getRandomInteger(1, 10)),
-    });
-    photoCounter++;
-  }
-  return photoArray;
-};
+const createPhoto = (quantity) => new Array(quantity).fill(null).map((photo, index) => ({
+  id: index + 1,
+  url: `photos/${index + 1}.jpg`,
+  description: 'Далеко-далеко за словесными горами в стране гласных и согласных живут рыбные тексты',
+  likes: getRandomInteger(15,200),
+  comments: createComments(getRandomInteger(1, 4)),
+}));
 
 // eslint-disable-next-line no-console
-console.log(createPhotoDescription(PHOTOS_NUMBER));
+console.log(createPhoto(PHOTOS_NUMBER));
 
 isValidLength('КЕК', 140);
