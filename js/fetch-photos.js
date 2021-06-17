@@ -12,9 +12,9 @@ export const fetchPhotos = () => {
 
   photos.forEach( (photo, ind) => {
     const picture = pictureTemplate.cloneNode(true);
-    picture.children[0].src = photo.url;
-    picture.children[1].children[0].textContent = photo.comments.length;
-    picture.children[1].children[1].textContent = photo.likes.toString();
+    picture.querySelector('.picture__img').src = photo.url;
+    picture.querySelector('.picture__comments').textContent = photo.comments.length;
+    picture.querySelector('.picture__likes').textContent = photo.likes.toString();
     zoomPhotoHandler(picture, photos[ind]);
     picturesFragment.appendChild(picture);
   });
