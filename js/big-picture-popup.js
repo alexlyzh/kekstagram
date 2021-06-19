@@ -27,14 +27,14 @@ const onPopupOpen = () => {
   btnClose.addEventListener('click', onPopupClose);
 };
 
-function onPopupEscKeydown(evt) {
+const onPopupEscKeydown = (evt) => {
   if (isEscKeydown(evt)) {
     evt.preventDefault();
     onPopupClose();
   }
-}
+};
 
-export const bigPicturePopup = (photoEl, photoObj) => {
+const bigPicturePopup = (photoEl, photoObj) => {
   photoEl.addEventListener('click', (evt) => {
     evt.preventDefault();
     socialComments.textContent = '';
@@ -47,3 +47,4 @@ export const bigPicturePopup = (photoEl, photoObj) => {
   });
 };
 
+export {bigPicturePopup};

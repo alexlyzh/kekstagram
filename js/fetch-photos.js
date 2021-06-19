@@ -1,7 +1,7 @@
 import {createPhoto, PHOTOS_NUMBER} from './photo/photo.js';
 import {bigPicturePopup} from './big-picture-popup.js';
 
-export const fetchPhotos = () => {
+const fetchPhotos = () => {
   const photos = createPhoto(PHOTOS_NUMBER);
   const picturesContainer = document.querySelector('.pictures');
   const picturesFragment = document.createDocumentFragment();
@@ -21,3 +21,5 @@ export const fetchPhotos = () => {
 
   picturesContainer.appendChild(picturesFragment);
 };
+
+export {fetchPhotos};
