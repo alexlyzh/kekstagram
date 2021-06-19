@@ -22,3 +22,21 @@ export const createComments = (quantity) => new Array(quantity).fill(null).map((
     message: PHRASES[getRandomInteger(1, PHRASES.length - 1)],
     name: NAMES[getRandomInteger(1, NAMES.length - 1)],
   }));
+
+const createCommentHTML = ({avatar, name, message}) => `
+      <li class="social__comment">
+          <img
+              class="social__picture"
+              src="${avatar}"
+              alt="${name}"
+              width="35" height="35">
+          <p class="social__text">${message}</p>
+      </li>`;
+
+export const renderComments = (comments, container) => {
+  let commentsHTML = '';
+  comments.forEach( (comment) => {
+    commentsHTML += createCommentHTML(comment);
+  });
+  container.insertAdjacentHTML('afterbegin', commentsHTML);
+};

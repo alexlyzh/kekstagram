@@ -18,4 +18,4 @@ export const isValidLength = (string, maxLength) => string.length <= maxLength;
 export const isEscKeydown = (evt) => evt.keyCode === 27;
 
 export const hideElement = (el) => el.classList.add('hidden');
-export const unhideElement = (el) => el.classList.remove('hidden');
+export const showElement = (el) => el.classList.remove('hidden');

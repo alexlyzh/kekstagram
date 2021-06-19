@@ -1,5 +1,5 @@
 import {createPhoto, PHOTOS_NUMBER} from './photo/photo.js';
-import {zoomPhotoHandler} from './zoom-photo-handler.js';
+import {bigPicturePopup} from './big-picture-popup.js';
 
 export const fetchPhotos = () => {
   const photos = createPhoto(PHOTOS_NUMBER);
@@ -14,8 +14,8 @@ export const fetchPhotos = () => {
     const picture = pictureTemplate.cloneNode(true);
     picture.querySelector('.picture__img').src = photo.url;
     picture.querySelector('.picture__comments').textContent = photo.comments.length;
-    picture.querySelector('.picture__likes').textContent = photo.likes.toString();
-    zoomPhotoHandler(picture, photo);
+    picture.querySelector('.picture__likes').textContent = photo.likes;
+    bigPicturePopup(picture, photo);
     picturesFragment.appendChild(picture);
   });
 
