@@ -8,7 +8,7 @@ const createPhoto = (quantity) => new Array(quantity).fill(null).map((photo, ind
   url: `photos/${index + 1}.jpg`,
   description: 'Далеко-далеко за словесными горами в стране гласных и согласных живут рыбные тексты',
   likes: getRandomInteger(15,200),
-  comments: createComments(getRandomInteger(1, 4)),
+  comments: createComments(getRandomInteger(0, 25)),
 }));
 
 export {PHOTOS_NUMBER, createPhoto};

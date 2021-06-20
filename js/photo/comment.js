@@ -1,5 +1,7 @@
 import {getRandomInteger} from '../utils/utils.js';
 
+const COMMENTS_RENDER_STEP = 5;
+
 const NAMES = [
   'Иван','Хуан Себастьян','Мария','Кристоф','Виктор','Юлия','Люпита','Вашингтон','Саша','Абрам','Аваз','Август','Авдей','Автандил',
   'Адам','Адис','Адольф','Адриан','Азарий','Аким','Алан','Александр','Алексей','Альберт','Альфред','Амадей','Амаяк','Антон',
@@ -15,16 +17,16 @@ const PHRASES = [
   'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!',
 ];
 
-const createComments = (quantity) => new Array(quantity).fill(null).map((comment, index) => (
+const createComments = (quantity) => new Array(quantity).fill(null).map((comment, i) => (
   {
-    id: index + 1,
+    id: i + 1,
     avatar: `img/avatar-${getRandomInteger(1, 6)}.svg`,
     message: PHRASES[getRandomInteger(1, PHRASES.length - 1)],
     name: NAMES[getRandomInteger(1, NAMES.length - 1)],
   }));
 
-const createCommentHTML = ({avatar, name, message}) => `
-      <li class="social__comment">
+const createCommentHTML = ({avatar, name, message}, index) => `
+      <li class="social__comment${index > (COMMENTS_RENDER_STEP - 1) ? ' hidden' : ''}">
           <img
               class="social__picture"
               src="${avatar}"
@@ -35,10 +37,12 @@ const createCommentHTML = ({avatar, name, message}) => `
 
 const renderComments = (comments, container) => {
   let commentsHTML = '';
-  comments.forEach( (comment) => {
-    commentsHTML += createCommentHTML(comment);
+  comments.forEach( (comment, i) => {
+    commentsHTML += createCommentHTML(comment, i);
   });
   container.insertAdjacentHTML('afterbegin', commentsHTML);
+  comments.length >= COMMENTS_RENDER_STEP ? container.dataset.renderedComments = COMMENTS_RENDER_STEP : container.dataset.renderedComments = comments.length;
 };
 
-export {NAMES, PHRASES, createComments, renderComments};
+
+export {NAMES, PHRASES, createComments, renderComments, COMMENTS_RENDER_STEP};
