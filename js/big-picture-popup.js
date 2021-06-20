@@ -7,30 +7,30 @@ const likesCount = bigPicture.querySelector('.likes-count');
 const commentsCount = bigPicture.querySelector('.comments-count');
 const socialComments = bigPicture.querySelector('.social__comments');
 const socialDescription = bigPicture.querySelector('.social__caption');
-const btnClose = bigPicture.querySelector('.big-picture__cancel');
+const btnBigPictureClose = bigPicture.querySelector('.big-picture__cancel');
 const socialCommentCount = bigPicture.querySelector('.social__comment-count');
 const commentsLoader = bigPicture.querySelector('.comments-loader');
 hideElement(socialCommentCount);
 hideElement(commentsLoader);
 
-const onPopupClose = () => {
+const onBigPictureClose = () => {
   hideElement(bigPicture);
   document.body.classList.remove('modal-open');
-  document.removeEventListener('keydown', onPopupEscKeydown); // eslint-disable-line no-use-before-define
-  btnClose.removeEventListener('click', onPopupClose);
+  document.removeEventListener('keydown', onBigPicEscKeydown); // eslint-disable-line no-use-before-define
+  btnBigPictureClose.removeEventListener('click', onBigPictureClose);
 };
 
-const onPopupOpen = () => {
+const onBigPictureOpen = () => {
   showElement(bigPicture);
   document.body.classList.add('modal-open');
-  document.addEventListener('keydown', onPopupEscKeydown); // eslint-disable-line no-use-before-define
-  btnClose.addEventListener('click', onPopupClose);
+  document.addEventListener('keydown', onBigPicEscKeydown); // eslint-disable-line no-use-before-define
+  btnBigPictureClose.addEventListener('click', onBigPictureClose);
 };
 
-const onPopupEscKeydown = (evt) => {
+const onBigPicEscKeydown = (evt) => {
   if (isEscKeydown(evt)) {
     evt.preventDefault();
-    onPopupClose();
+    onBigPictureClose();
   }
 };
 
@@ -43,7 +43,7 @@ const bigPicturePopup = (photoEl, photoObj) => {
     commentsCount.textContent = photoObj.comments.length;
     socialDescription.textContent = photoObj.description;
     renderComments(photoObj.comments, socialComments);
-    onPopupOpen();
+    onBigPictureOpen();
   });
 };
 
