@@ -1,9 +1,3 @@
-// eslint-disable-next-line no-unused-vars
-import * as comment from './comment.js';
-
-// eslint-disable-next-line no-unused-vars
-import * as hashtag from './hashtag.js';
-
 import {getRandomInteger} from '../utils/utils.js';
 import {createComments} from './comment.js';
 
