@@ -10,6 +10,7 @@ const socialDescription = bigPicture.querySelector('.social__caption');
 const btnBigPictureClose = bigPicture.querySelector('.big-picture__cancel');
 const socialCommentCount = bigPicture.querySelector('.social__comment-count');
 const commentsLoader = bigPicture.querySelector('.comments-loader');
+const myCommentInput = bigPicture.querySelector('.social__footer-text');
 hideElement(socialCommentCount);
 hideElement(commentsLoader);
 
@@ -28,7 +29,7 @@ const onBigPictureOpen = () => {
 };
 
 const onBigPicEscKeydown = (evt) => {
-  if (isEscKeydown(evt)) {
+  if (isEscKeydown(evt) && !(document.activeElement === myCommentInput)) {
     evt.preventDefault();
     onBigPictureClose();
   }

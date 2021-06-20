@@ -1,6 +1,7 @@
 import {isEscKeydown, hideElement, showElement} from '../utils/utils.js';
 
 const MAX_HASHTAG_LENGTH = 20;
+const MAX_HASHTAG_COUNT = 5;
 const imageUploadForm = document.querySelector('.img-upload__form');
 const inputFile = imageUploadForm.querySelector('#upload-file');
 const imgUploadPopup = imageUploadForm.querySelector('.img-upload__overlay');
@@ -19,12 +20,12 @@ const onHashtagInput = ()=> {
   let hashtagsMaxLength = 0;
   let hashtagDuplicatesCount = 0;
 
-  for (let ind = 0; ind < hashtags.length; ind++) {
-    hashtagsMaxLength = Math.max(hashtagsMaxLength, hashtags[ind].length);
-    if (hashtags[ind] === hashtags[ind + 1]) {
+  for (let i = 0; i < hashtags.length; i++) {
+    hashtagsMaxLength = Math.max(hashtagsMaxLength, hashtags[i].length);
+    if (hashtags[i] === hashtags[i + 1]) {
       hashtagDuplicatesCount++;
     }
-    isEveryHashtagValid = isEveryHashtagValid && hashtagRegexp.test(hashtags[ind]);
+    isEveryHashtagValid = isEveryHashtagValid && hashtagRegexp.test(hashtags[i]);
   }
 
   if (hashtags.includes('#')) {
@@ -33,8 +34,8 @@ const onHashtagInput = ()=> {
     inputHashtag.setCustomValidity('Строка после решётки должна состоять из букв и чисел и не может содержать пробелы, спецсимволы (#, @, $ и т. п.), символы пунктуации (тире, дефис, запятая и т. п.), эмодзи и т. д.');
   } else if (hashtagsMaxLength > MAX_HASHTAG_LENGTH) {
     inputHashtag.setCustomValidity(`Максимальная длина одного хэш-тега ${MAX_HASHTAG_LENGTH} символов, включая решётку`);
-  } else if (hashtags.length > 5) {
-    inputHashtag.setCustomValidity('Нельзя указать больше пяти хэш-тегов');
+  } else if (hashtags.length > MAX_HASHTAG_COUNT) {
+    inputHashtag.setCustomValidity(`Нельзя указать больше чем ${MAX_HASHTAG_COUNT} хэш-тегов`);
   } else if (hashtagDuplicatesCount > 0) {
     inputHashtag.setCustomValidity('Один и тот же хэш-тег не может быть использован дважды. Хэш-теги нечувствительны к регистру');
   } else {
