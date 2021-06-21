@@ -1,6 +1,8 @@
 import {getRandomInteger} from '../utils/utils.js';
 
 const COMMENTS_RENDER_STEP = 5;
+const FIRST_AVATAR_URL_INDEX = 1;
+const LAST_AVATAR_URL_INDEX = 6;
 
 const NAMES = [
   'Иван','Хуан Себастьян','Мария','Кристоф','Виктор','Юлия','Люпита','Вашингтон','Саша','Абрам','Аваз','Август','Авдей','Автандил',
@@ -20,9 +22,9 @@ const PHRASES = [
 const createComments = (quantity) => new Array(quantity).fill(null).map((comment, i) => (
   {
     id: i + 1,
-    avatar: `img/avatar-${getRandomInteger(1, 6)}.svg`,
-    message: PHRASES[getRandomInteger(1, PHRASES.length - 1)],
-    name: NAMES[getRandomInteger(1, NAMES.length - 1)],
+    avatar: `img/avatar-${getRandomInteger(FIRST_AVATAR_URL_INDEX, LAST_AVATAR_URL_INDEX)}.svg`,
+    message: PHRASES[getRandomInteger(0, PHRASES.length - 1)],
+    name: NAMES[getRandomInteger(0, NAMES.length - 1)],
   }));
 
 const createCommentHTML = ({avatar, name, message}, index) => `
@@ -41,8 +43,8 @@ const renderComments = (comments, container) => {
     commentsHTML += createCommentHTML(comment, i);
   });
   container.insertAdjacentHTML('afterbegin', commentsHTML);
-  comments.length >= COMMENTS_RENDER_STEP ? container.dataset.renderedComments = COMMENTS_RENDER_STEP : container.dataset.renderedComments = comments.length;
+  container.dataset.renderedComments = Math.min(comments.length, COMMENTS_RENDER_STEP);
 };
 
 
-export {NAMES, PHRASES, createComments, renderComments, COMMENTS_RENDER_STEP};
+export {createComments, renderComments, COMMENTS_RENDER_STEP};

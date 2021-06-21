@@ -14,13 +14,14 @@ const commentsLoader = bigPicture.querySelector('.comments-loader');
 const myCommentInput = bigPicture.querySelector('.social__footer-text');
 
 const onCommentLoaderClick = () => {
-  const commentsNumber = socialComments.children.length;
-  const renderedCommentsCount = +socialComments.dataset.renderedComments;
+  const commentsCollection = socialComments.querySelectorAll('.social__comment');
+  const commentsNumber = commentsCollection.length;
+  const renderedCommentsCount = Number(socialComments.dataset.renderedComments);
   const renderStep = Math.min(commentsNumber, renderedCommentsCount + COMMENTS_RENDER_STEP);
 
   let commentsAdded = 0;
   for (let i = renderedCommentsCount; i < renderStep; i++) {
-    socialComments.children[i].classList.remove('hidden');
+    commentsCollection[i].classList.remove('hidden');
     commentsAdded++;
   }
   if (commentsNumber === renderedCommentsCount + commentsAdded) {
@@ -62,13 +63,8 @@ const checkCommentsNumber = (number) => {
     hideElement(commentsLoader);
   }
 
-  if (number === 0) {
-    hideElement(socialCommentCount);
-    hideElement(socialComments);
-  } else {
-    showElement(socialCommentCount);
-    showElement(socialComments);
-  }
+  socialCommentCount.classList.toggle('hidden', number === 0);
+  socialComments.classList.toggle('hidden', number === 0);
 };
 
 const bigPicturePopup = (photoEl, photoObj) => {
