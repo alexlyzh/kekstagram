@@ -1,4 +1,5 @@
 import {isEscKeydown, hideElement, showElement} from '../utils/utils.js';
+import {setDefaultScale} from './scale.js';
 
 const MAX_HASHTAG_LENGTH = 20;
 const MAX_HASHTAG_COUNT = 5;
@@ -54,6 +55,7 @@ const onImgUploadClose = () => {
 };
 
 const onImgUploadOpen = () => {
+  setDefaultScale();
   showElement(imgUploadPopup);
   document.body.classList.add('modal-open');
   document.addEventListener('keydown', onImgUploadEscKeydown); // eslint-disable-line no-use-before-define
