@@ -1,10 +1,12 @@
 import {isEscKeydown, hideElement, showElement} from '../utils/utils.js';
-import {setDefaultScale} from './scale.js';
+import {setDefaultImgScale} from './scale.js';
+import {setDefaultImgFilter} from './slider.js';
 
 const MAX_HASHTAG_LENGTH = 20;
 const MAX_HASHTAG_COUNT = 5;
 const imageUploadForm = document.querySelector('.img-upload__form');
 const inputFile = imageUploadForm.querySelector('#upload-file');
+const uploadingImage = document.querySelector('.img-upload__preview img');
 const imgUploadPopup = imageUploadForm.querySelector('.img-upload__overlay');
 const btnImgUploadClose = imageUploadForm.querySelector('#upload-cancel');
 const inputComment = imageUploadForm.querySelector('.text__description');
@@ -47,6 +49,7 @@ const onHashtagInput = ()=> {
 };
 
 const onImgUploadClose = () => {
+  setDefaultImgFilter();
   hideElement(imgUploadPopup);
   document.body.classList.remove('modal-open');
   document.removeEventListener('keydown', onImgUploadEscKeydown); // eslint-disable-line no-use-before-define
@@ -55,7 +58,8 @@ const onImgUploadClose = () => {
 };
 
 const onImgUploadOpen = () => {
-  setDefaultScale();
+  setDefaultImgScale();
+  setDefaultImgFilter();
   showElement(imgUploadPopup);
   document.body.classList.add('modal-open');
   document.addEventListener('keydown', onImgUploadEscKeydown); // eslint-disable-line no-use-before-define
@@ -72,3 +76,5 @@ const onImgUploadEscKeydown = (evt) => {
 };
 
 inputFile.addEventListener('change', onImgUploadOpen);
+
+export {uploadingImage};

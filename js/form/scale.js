@@ -1,27 +1,32 @@
+import {uploadingImage} from './image-upload-form.js';
+
+const SCALING_STEP = 25;
+const MAX_SCALE = 100;
+
 const scaleButtons = document.querySelectorAll('.scale__control');
 const scaleValue = document.querySelector('.scale__control--value');
-const scalingImage = document.querySelector('.img-upload__preview img');
 
-const setDefaultScale = () => {
+
+const setDefaultImgScale = () => {
   scaleValue.setAttribute('value', '100%');
-  scalingImage.style.transform = 'scale(1)';
+  uploadingImage.style.transform = 'scale(1)';
 };
 
 const getCurrentScaleValueAsNumber = () => Number(scaleValue.value.substr(0, scaleValue.value.length - 1));
 
 function onScaleButtonClick() {
   if (this.textContent === 'Увеличить') {
-    if (getCurrentScaleValueAsNumber() !== 100) {
-      const newScale = getCurrentScaleValueAsNumber() + 25;
+    if (getCurrentScaleValueAsNumber() !== MAX_SCALE) {
+      const newScale = getCurrentScaleValueAsNumber() + SCALING_STEP;
       scaleValue.setAttribute('value', `${newScale}%`);
-      scalingImage.style.transform = `scale(${newScale / 100})`;
+      uploadingImage.style.transform = `scale(${newScale / 100})`;
     }
   }
   if (this.textContent === 'Уменьшить'){
-    if (getCurrentScaleValueAsNumber() !== 25) {
-      const newScale = getCurrentScaleValueAsNumber() - 25;
+    if (getCurrentScaleValueAsNumber() !== SCALING_STEP) {
+      const newScale = getCurrentScaleValueAsNumber() - SCALING_STEP;
       scaleValue.setAttribute('value', `${newScale}%`);
-      scalingImage.style.transform = `scale(${newScale / 100})`;
+      uploadingImage.style.transform = `scale(${newScale / 100})`;
     }
   }
 }
@@ -30,4 +35,4 @@ scaleButtons.forEach((button) => {
   button.addEventListener('click', onScaleButtonClick);
 });
 
-export {setDefaultScale};
+export {setDefaultImgScale};

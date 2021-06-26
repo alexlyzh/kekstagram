@@ -22,4 +22,4 @@ const fetchPhotos = () => {
   picturesContainer.appendChild(picturesFragment);
 };
 
-export {fetchPhotos};
+fetchPhotos();
