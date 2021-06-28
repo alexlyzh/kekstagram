@@ -1,38 +1,36 @@
-import {uploadingImage} from './image-upload-form.js';
+import {uploadingImageElement} from './image-upload-form.js';
 
 const SCALING_STEP = 25;
 const MAX_SCALE = 100;
 
-const scaleButtons = document.querySelectorAll('.scale__control');
-const scaleValue = document.querySelector('.scale__control--value');
+const scaleSmallerElement = document.querySelector('.scale__control--smaller');
+const scaleBiggerElement = document.querySelector('.scale__control--bigger');
+const scaleValueElement = document.querySelector('.scale__control--value');
 
 
 const setDefaultImgScale = () => {
-  scaleValue.setAttribute('value', '100%');
-  uploadingImage.style.transform = 'scale(1)';
+  scaleValueElement.setAttribute('value', '100%');
+  uploadingImageElement.style.transform = 'scale(1)';
 };
 
-const getCurrentScaleValueAsNumber = () => Number(scaleValue.value.substr(0, scaleValue.value.length - 1));
+const changeScale = (multiplier, currentScale) => {
+  const newScale = currentScale + multiplier * SCALING_STEP;
+  scaleValueElement.setAttribute('value', `${newScale}%`);
+  uploadingImageElement.style.transform = `scale(${newScale / 100})`;
+};
 
-function onScaleButtonClick() {
-  if (this.textContent === 'Увеличить') {
-    if (getCurrentScaleValueAsNumber() !== MAX_SCALE) {
-      const newScale = getCurrentScaleValueAsNumber() + SCALING_STEP;
-      scaleValue.setAttribute('value', `${newScale}%`);
-      uploadingImage.style.transform = `scale(${newScale / 100})`;
+const onScaleButtonClick = (evt) => {
+  const currentScale = Number(scaleValueElement.value.substr(0, scaleValueElement.value.length - 1));
+  if (evt.target.classList.contains('scale__control--bigger')) {
+    if (currentScale !== MAX_SCALE) {
+      changeScale(1, currentScale);
     }
   }
-  if (this.textContent === 'Уменьшить'){
-    if (getCurrentScaleValueAsNumber() !== SCALING_STEP) {
-      const newScale = getCurrentScaleValueAsNumber() - SCALING_STEP;
-      scaleValue.setAttribute('value', `${newScale}%`);
-      uploadingImage.style.transform = `scale(${newScale / 100})`;
+  if (evt.target.classList.contains('scale__control--smaller')) {
+    if (currentScale !== SCALING_STEP) {
+      changeScale(-1, currentScale);
     }
   }
-}
+};
 
-scaleButtons.forEach((button) => {
-  button.addEventListener('click', onScaleButtonClick);
-});
-
-export {setDefaultImgScale};
+export {setDefaultImgScale, scaleBiggerElement, scaleSmallerElement, onScaleButtonClick};

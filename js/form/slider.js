@@ -1,66 +1,74 @@
-import {uploadingImage} from './image-upload-form.js';
+import {uploadingImageElement} from './image-upload-form.js';
 import '../../nouislider/nouislider.js';
 
-const imageFilters = document.querySelectorAll('.effects__radio');
+const SLIDER_RANGE_SETTINGS_FOR_IMG_FILTERS = {
+  chrome: {
+    minValue: 0,
+    maxValue: 100,
+    startValue: 100,
+    valueStep: 1,
+  },
+  marvin: {
+    minValue: 0,
+    maxValue: 100,
+    startValue: 100,
+    valueStep: 1,
+  },
+  sepia: {
+    minValue: 0,
+    maxValue: 100,
+    startValue: 100,
+    valueStep: 1,
+  },
+  phobos: {
+    minValue: 0,
+    maxValue: 3,
+    startValue: 3,
+    valueStep: 0.1,
+  },
+  heat: {
+    minValue: 1,
+    maxValue: 3,
+    startValue: 3,
+    valueStep: 0.1,
+  },
+};
+
+const imageFilterElements = document.querySelectorAll('.effects__radio');
 const sliderElement = document.querySelector('.effect-level__slider');
 const valueElement = document.querySelector('.effect-level__value');
 
 const onSliderUpdate = (filterEffect, value) => {
   switch (filterEffect) {
     case 'chrome':
-      uploadingImage.style.filter = `grayscale(${(value / 100).toFixed(1)})`;
+      uploadingImageElement.style.filter = `grayscale(${(value / 100).toFixed(1)})`;
       break;
     case 'sepia':
-      uploadingImage.style.filter = `sepia(${(value / 100).toFixed(1)})`;
+      uploadingImageElement.style.filter = `sepia(${(value / 100).toFixed(1)})`;
       break;
     case 'marvin':
-      uploadingImage.style.filter = `invert(${value}%)`;
+      uploadingImageElement.style.filter = `invert(${value}%)`;
       break;
     case 'phobos':
-      uploadingImage.style.filter = `blur(${value}px)`;
+      uploadingImageElement.style.filter = `blur(${value}px)`;
       break;
     case 'heat':
-      uploadingImage.style.filter = `brightness(${value})`;
+      uploadingImageElement.style.filter = `brightness(${value})`;
       break;
   }
 };
 
-const getSliderSettings = (filterEffect) => {
-  switch (filterEffect) {
-    case 'chrome':
-    case 'sepia':
-    case 'marvin':
-      return {
-        min: 0,
-        max: 100,
-        start: 100,
-        step: 1,
-      };
-    case 'phobos':
-      return {
-        min: 0,
-        max: 3,
-        start: 3,
-        step: 0.1,
-      };
-    case 'heat':
-      return {
-        min: 1,
-        max: 3,
-        start: 3,
-        step: 0.1,
-      };
+const updateSliderSettings = ({minValue, maxValue, startValue, valueStep}) => {
+  if (sliderElement.noUiSlider) {
+    sliderElement.noUiSlider.destroy();
   }
-};
-
-const createSlider = (min, max, start, step) => {
   noUiSlider.create(sliderElement, {
     range: {
-      min: min,
-      max: max,
+      min: minValue,
+      max: maxValue,
     },
-    start: start,
-    step: step,
+    start: startValue,
+    step: valueStep,
     connect: 'lower',
     format: {
       to: function (value) {
@@ -73,36 +81,8 @@ const createSlider = (min, max, start, step) => {
   });
 
   sliderElement.noUiSlider.on('update', (values, handle) => {
-    valueElement.setAttribute('value', ((values[handle] - min) / (max - min) * 100).toFixed());
-    onSliderUpdate(uploadingImage.dataset.selectedFilter, values[handle]);
-  });
-};
-
-const updateSliderSettings = ({min, max, start, step}) => {
-  if (!sliderElement.noUiSlider) {
-    createSlider(min, max, start, step);
-    return;
-  }
-  sliderElement.noUiSlider.updateOptions({
-    range: {
-      min: min,
-      max: max,
-    },
-    start: start,
-    step: step,
-    format: {
-      to: function (value) {
-        return value;
-      },
-      from: function (value) {
-        return parseFloat(value);
-      },
-    },
-  });
-
-  sliderElement.noUiSlider.on('update', (values, handle) => {
-    valueElement.setAttribute('value', ((values[handle] - min) / (max - min) * 100).toFixed());
-    onSliderUpdate(uploadingImage.dataset.selectedFilter, values[handle]);
+    valueElement.setAttribute('value', ((values[handle] - minValue) / (maxValue - minValue) * 100).toFixed());
+    onSliderUpdate(uploadingImageElement.dataset.selectedFilter, values[handle]);
   });
 };
 
@@ -111,26 +91,27 @@ const setDefaultImgFilter = () => {
     sliderElement.noUiSlider.destroy();
   }
   valueElement.setAttribute('value', '');
-  uploadingImage.style.filter = '';
-  uploadingImage.classList.remove(...uploadingImage.classList);
-  uploadingImage.dataset.selectedFilter = '';
+  uploadingImageElement.style.filter = '';
+  uploadingImageElement.classList.remove(...uploadingImageElement.classList);
+  uploadingImageElement.dataset.selectedFilter = '';
 };
 
 const onImageFilterClick = (evt) => {
-  if (evt.target.value === 'none') {
+  const selectedFilter = evt.target.value;
+  if (selectedFilter === 'none') {
     setDefaultImgFilter();
   } else {
-    uploadingImage.dataset.selectedFilter = evt.target.value;
-    const settings = getSliderSettings(evt.target.value);
-    updateSliderSettings(settings);
-    sliderElement.noUiSlider.set(settings.max);
-    uploadingImage.style.filter = '';
-    uploadingImage.classList.remove(...uploadingImage.classList);
-    uploadingImage.classList.add(`effects__preview--${evt.target.value}`);
+    uploadingImageElement.dataset.selectedFilter = selectedFilter;
+    const rangeSettings = SLIDER_RANGE_SETTINGS_FOR_IMG_FILTERS[selectedFilter];
+    updateSliderSettings(rangeSettings);
+    sliderElement.noUiSlider.set(rangeSettings.maxValue);
+    uploadingImageElement.style.filter = '';
+    uploadingImageElement.classList.remove(...uploadingImageElement.classList);
+    uploadingImageElement.classList.add(`effects__preview--${selectedFilter}`);
   }
 };
 
-imageFilters.forEach((filter) => {
+imageFilterElements.forEach((filter) => {
   filter.addEventListener('click', onImageFilterClick);
 });
 
