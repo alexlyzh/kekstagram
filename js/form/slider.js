@@ -81,7 +81,7 @@ const updateSliderSettings = ({minValue, maxValue, startValue, valueStep}) => {
   });
 
   sliderElement.noUiSlider.on('update', (values, handle) => {
-    valueElement.setAttribute('value', ((values[handle] - minValue) / (maxValue - minValue) * 100).toFixed());
+    valueElement.value = ((values[handle] - minValue) / (maxValue - minValue) * 100).toFixed();
     onSliderUpdate(uploadingImageElement.dataset.selectedFilter, values[handle]);
   });
 };
@@ -90,9 +90,9 @@ const setDefaultImgFilter = () => {
   if (sliderElement.noUiSlider) {
     sliderElement.noUiSlider.destroy();
   }
-  valueElement.setAttribute('value', '');
+  valueElement.value = '';
   uploadingImageElement.style.filter = '';
-  uploadingImageElement.classList.remove(...uploadingImageElement.classList);
+  uploadingImageElement.classList = '';
   uploadingImageElement.dataset.selectedFilter = '';
 };
 
@@ -106,7 +106,7 @@ const onImageFilterClick = (evt) => {
     updateSliderSettings(rangeSettings);
     sliderElement.noUiSlider.set(rangeSettings.maxValue);
     uploadingImageElement.style.filter = '';
-    uploadingImageElement.classList.remove(...uploadingImageElement.classList);
+    uploadingImageElement.classList = '';
     uploadingImageElement.classList.add(`effects__preview--${selectedFilter}`);
   }
 };

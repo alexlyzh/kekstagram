@@ -1,11 +1,13 @@
 import {isEscKeydown, hideElement, showElement} from '../utils/utils.js';
-import {setDefaultImgScale, scaleSmallerElement, scaleBiggerElement, onScaleButtonClick} from './scale.js';
+import {onScaleBiggerClick, onScaleSmallerClick, setDefaultImgScale} from './scale.js';
 import {setDefaultImgFilter} from './slider.js';
 
 const MAX_HASHTAG_LENGTH = 20;
 const MAX_HASHTAG_COUNT = 5;
 const imageUploadFormElement = document.querySelector('.img-upload__form');
 const inputFileElement = imageUploadFormElement.querySelector('#upload-file');
+const scaleSmallerElement = document.querySelector('.scale__control--smaller');
+const scaleBiggerElement = document.querySelector('.scale__control--bigger');
 const uploadingImageElement = document.querySelector('.img-upload__preview img');
 const imgUploadPopupElement = imageUploadFormElement.querySelector('.img-upload__overlay');
 const btnImgUploadCloseElement = imageUploadFormElement.querySelector('#upload-cancel');
@@ -53,10 +55,6 @@ const onImgUploadClose = () => {
   hideElement(imgUploadPopupElement);
   document.body.classList.remove('modal-open');
   document.removeEventListener('keydown', onImgUploadEscKeydown); // eslint-disable-line no-use-before-define
-  scaleSmallerElement.removeEventListener('click', onScaleButtonClick);
-  scaleBiggerElement.removeEventListener('click', onScaleButtonClick);
-  btnImgUploadCloseElement.removeEventListener('click', onImgUploadClose);
-  hashtagInputElement.removeEventListener('input', onHashtagInput);
 };
 
 const onImgUploadOpen = () => {
@@ -65,8 +63,8 @@ const onImgUploadOpen = () => {
   showElement(imgUploadPopupElement);
   document.body.classList.add('modal-open');
   document.addEventListener('keydown', onImgUploadEscKeydown); // eslint-disable-line no-use-before-define
-  scaleSmallerElement.addEventListener('click', onScaleButtonClick);
-  scaleBiggerElement.addEventListener('click', onScaleButtonClick);
+  scaleSmallerElement.addEventListener('click', onScaleSmallerClick);
+  scaleBiggerElement.addEventListener('click', onScaleBiggerClick);
   btnImgUploadCloseElement.addEventListener('click', onImgUploadClose);
   hashtagInputElement.addEventListener('input', onHashtagInput);
 };

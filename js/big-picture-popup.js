@@ -35,8 +35,6 @@ const onBigPictureClose = () => {
   hideElement(bigPictureElement);
   document.body.classList.remove('modal-open');
   document.removeEventListener('keydown', onBigPicEscKeydown); // eslint-disable-line no-use-before-define
-  btnBigPictureCloseElement.removeEventListener('click', onBigPictureClose);
-  commentsLoaderElement.removeEventListener('click', onCommentLoaderClick);
 };
 
 const onBigPictureOpen = () => {
