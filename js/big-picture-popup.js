@@ -53,7 +53,7 @@ const onBigPicEscKeydown = (evt) => {
 };
 
 const checkCommentsNumber = (number) => {
-  if (number >= COMMENTS_RENDER_STEP) {
+  if (number > COMMENTS_RENDER_STEP) {
     commentsRenderedElement.textContent = COMMENTS_RENDER_STEP;
     showElement(commentsLoaderElement);
   } else {

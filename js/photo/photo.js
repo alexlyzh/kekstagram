@@ -1,22 +1,18 @@
-import {getRandomInteger} from '../utils/utils.js';
-import {createComments} from './comment.js';
-
-const PHOTOS_NUMBER = 25;
-const MIN_LIKES_NUMBER = 15;
-const MAX_LIKES_NUMBER = 200;
-const MIN_COMMENTS_NUMBER = 0;
-const MAX_COMMENTS_NUMBER = 25;
 const pictureTemplate = document.querySelector('#picture')
   .content
   .querySelector('.picture');
 
-const createPhotoObject = (i) => ({
-  id: i + 1,
-  url: `photos/${i + 1}.jpg`,
-  description: 'Далеко-далеко за словесными горами в стране гласных и согласных живут рыбные тексты',
-  likes: getRandomInteger(MIN_LIKES_NUMBER,MAX_LIKES_NUMBER),
-  comments: createComments(getRandomInteger(MIN_COMMENTS_NUMBER, MAX_COMMENTS_NUMBER)),
-});
+const fetchPhotos = (onSuccess, onFail) => {
+  fetch('https://23.javascript.pages.academy/kekstagram/data')
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`${response.status} ${response.statusText}`);
+      }
+      return response.json();
+    })
+    .then((photos) => onSuccess(photos))
+    .catch((err) => onFail(err));
+};
 
 const createPhotoElement = (photoObject) => {
   const pictureElement = pictureTemplate.cloneNode(true);
@@ -26,4 +22,10 @@ const createPhotoElement = (photoObject) => {
   return pictureElement;
 };
 
-export {PHOTOS_NUMBER, createPhotoObject, createPhotoElement};
+const getFetchErrorHTML = (errorMessage) => `
+    <div class="error__inner error__inner--fetch">
+        <h2 class="error__title">Ошибка загрузки фото</h2>
+        <p>${errorMessage}</p>
+    </div>`;
+
+export {fetchPhotos, createPhotoElement, getFetchErrorHTML};
