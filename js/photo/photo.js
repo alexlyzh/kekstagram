@@ -1,6 +1,11 @@
+import {bigPicturePopup} from '../big-picture-popup.js';
+
 const pictureTemplate = document.querySelector('#picture')
   .content
   .querySelector('.picture');
+const picturesFragment = document.createDocumentFragment();
+const picturesContainerElement = document.querySelector('.pictures');
+const pageFooterElement = document.querySelector('.page-footer');
 
 const fetchPhotos = (onSuccess, onFail) => {
   fetch('https://23.javascript.pages.academy/kekstagram/data')
@@ -22,10 +27,21 @@ const createPhotoElement = (photoObject) => {
   return pictureElement;
 };
 
+const renderPhotos = (photos)=> {
+  photos.forEach((photo) => {
+    const pictureElement = createPhotoElement(photo);
+    bigPicturePopup(pictureElement, photo);
+    picturesFragment.appendChild(pictureElement);
+  });
+  picturesContainerElement.appendChild(picturesFragment);
+};
+
 const getFetchErrorHTML = (errorMessage) => `
     <div class="error__inner error__inner--fetch">
         <h2 class="error__title">Ошибка загрузки фото</h2>
         <p>${errorMessage}</p>
     </div>`;
 
-export {fetchPhotos, createPhotoElement, getFetchErrorHTML};
+const onFetchError = (err) => pageFooterElement.insertAdjacentHTML('beforebegin', getFetchErrorHTML(err));
+
+export {fetchPhotos, createPhotoElement, renderPhotos,onFetchError, getFetchErrorHTML};
