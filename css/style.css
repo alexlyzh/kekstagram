@@ -366,6 +366,9 @@ main {
   outline: auto 5px highlight;
 }
 
+input[type='text']:invalid {
+  outline: red 3px solid;
+}
 
 /* Окно для редактирования изображения
    ========================================================================== */
@@ -1242,6 +1245,11 @@ main {
 
   background-color: #3c3614;
   border-radius: 10px;
+}
+
+.error__inner--fetch {
+  width: auto;
+  margin-top: 70px;
 }
 
 .success__inner {

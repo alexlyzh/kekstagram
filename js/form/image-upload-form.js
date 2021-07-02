@@ -1,6 +1,8 @@
 import {isEscKeydown, hideElement, showElement} from '../utils/utils.js';
 import {onScaleBiggerClick, onScaleSmallerClick, setDefaultImgScale} from './scale.js';
 import {setDefaultImgFilter} from './slider.js';
+import {showSubmitMessage} from './submit-result-popup.js';
+import {sendFormData} from '../api.js';
 
 const MAX_HASHTAG_LENGTH = 20;
 const MAX_HASHTAG_COUNT = 5;
@@ -51,10 +53,12 @@ const onHashtagInput = ()=> {
 };
 
 const onImgUploadClose = () => {
+  setDefaultImgScale();
   setDefaultImgFilter();
   hideElement(imgUploadPopupElement);
   document.body.classList.remove('modal-open');
   document.removeEventListener('keydown', onImgUploadEscKeydown); // eslint-disable-line no-use-before-define
+  imageUploadFormElement.reset();
 };
 
 const onImgUploadOpen = () => {
@@ -67,14 +71,32 @@ const onImgUploadOpen = () => {
   scaleBiggerElement.addEventListener('click', onScaleBiggerClick);
   btnImgUploadCloseElement.addEventListener('click', onImgUploadClose);
   hashtagInputElement.addEventListener('input', onHashtagInput);
+  imageUploadFormElement.addEventListener('submit', onImgUploadFormSubmit); // eslint-disable-line no-use-before-define
 };
 
 const onImgUploadEscKeydown = (evt) => {
   if (isEscKeydown(evt) && !isImgUploadFormFieldActive()) {
     evt.preventDefault();
-    imageUploadFormElement.reset();
     onImgUploadClose();
   }
+};
+
+const onFormSubmitSuccess = () => {
+  showSubmitMessage('success');
+  onImgUploadClose();
+};
+
+const onFormSubmitError = () => {
+  showSubmitMessage('error');
+  onImgUploadClose();
+};
+
+const onImgUploadFormSubmit = (evt) => {
+  evt.preventDefault();
+  sendFormData(
+    onFormSubmitSuccess,
+    onFormSubmitError,
+    new FormData(evt.target));
 };
 
 inputFileElement.addEventListener('change', onImgUploadOpen);
