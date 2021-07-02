@@ -2,6 +2,7 @@ import {isEscKeydown, hideElement, showElement} from '../utils/utils.js';
 import {onScaleBiggerClick, onScaleSmallerClick, setDefaultImgScale} from './scale.js';
 import {setDefaultImgFilter} from './slider.js';
 import {showSubmitMessage} from './submit-result-popup.js';
+import {sendFormData} from '../api.js';
 
 const MAX_HASHTAG_LENGTH = 20;
 const MAX_HASHTAG_COUNT = 5;
@@ -88,21 +89,6 @@ const onFormSubmitSuccess = () => {
 const onFormSubmitError = () => {
   showSubmitMessage('error');
   onImgUploadClose();
-};
-
-const sendFormData = (onSuccess, onFail, body) => {
-  fetch('https://23.javascript.pages.academy/kekstagram',
-    {
-      method: 'POST',
-      body,
-    })
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error(`${response.status} ${response.statusText}`);
-      }
-      onSuccess();
-    })
-    .catch(() => onFail());
 };
 
 const onImgUploadFormSubmit = (evt) => {
