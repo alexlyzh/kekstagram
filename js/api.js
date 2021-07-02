@@ -1,5 +1,3 @@
-const pageFooterElement = document.querySelector('.page-footer');
-
 const fetchPhotos = (onSuccess, onFail) => {
   fetch('https://23.javascript.pages.academy/kekstagram/data')
     .then((response) => {
@@ -11,15 +9,6 @@ const fetchPhotos = (onSuccess, onFail) => {
     .then((photos) => onSuccess(photos))
     .catch((err) => onFail(err));
 };
-
-const getFetchErrorHTML = (errorMessage) => `
-    <div class="error__inner error__inner--fetch">
-        <h2 class="error__title">Ошибка загрузки фото</h2>
-        <p>${errorMessage}</p>
-    </div>`;
-
-const onFetchError = (err) => pageFooterElement.insertAdjacentHTML('beforebegin', getFetchErrorHTML(err));
-
 
 const sendFormData = (onSuccess, onFail, body) => {
   fetch('https://23.javascript.pages.academy/kekstagram',
@@ -36,4 +25,4 @@ const sendFormData = (onSuccess, onFail, body) => {
     .catch(() => onFail());
 };
 
-export {fetchPhotos, onFetchError, getFetchErrorHTML, sendFormData};
+export {fetchPhotos, sendFormData};
