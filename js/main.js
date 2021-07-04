@@ -1,21 +1,17 @@
-import {createPhotoElement} from './photo/photo.js';
-import {bigPicturePopup} from './big-picture-popup.js';
 import {fetchPhotos} from './api.js';
+import {setImgFilters} from './filter-photos.js';
+import {renderPhotos} from './photo/render-photos.js';
 import './form/image-upload-form.js';
 import './form/scale.js';
 import './form/slider.js';
 
-const picturesFragment = document.createDocumentFragment();
-const picturesContainerElement = document.querySelector('.pictures');
 const pageFooterElement = document.querySelector('.page-footer');
+const filtersElement = document.querySelector('.img-filters');
 
-const renderPhotos = (photos)=> {
-  photos.forEach((photo) => {
-    const pictureElement = createPhotoElement(photo);
-    bigPicturePopup(pictureElement, photo);
-    picturesFragment.appendChild(pictureElement);
-  });
-  picturesContainerElement.appendChild(picturesFragment);
+const onFetchSuccess = (photos) => {
+  renderPhotos(photos);
+  setImgFilters(photos);
+  filtersElement.classList.remove('img-filters--inactive');
 };
 
 const getFetchErrorHTML = (errorMessage) => `
@@ -26,4 +22,4 @@ const getFetchErrorHTML = (errorMessage) => `
 
 const onFetchError = (err) => pageFooterElement.insertAdjacentHTML('beforebegin', getFetchErrorHTML(err));
 
-fetchPhotos(renderPhotos, onFetchError);
+fetchPhotos(onFetchSuccess, onFetchError);
