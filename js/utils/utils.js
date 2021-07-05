@@ -31,8 +31,6 @@ const getRandomUniqueIntegerList = (min, max, length) => {
   return list;
 };
 
-getRandomUniqueIntegerList(0, 25, 10);
-
 const isEscKeydown = (evt) => evt.keyCode === 27;
 
 const hideElement = (el) => el.classList.add('hidden');

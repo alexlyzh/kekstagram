@@ -12,33 +12,44 @@ const RANDOM_PHOTOS_NUMBER = 10;
 
 const changeButtonsStyle = (evt) => filterButtons.forEach((btn) => btn.classList.toggle('img-filters__button--active', btn === evt.target));
 
+const removeCurrentPhotos = (container) => {
+  const photos = container.querySelectorAll('.picture');
+  photos.forEach((photo) => photo.remove());
+};
+
 const setImgFilters = (photos) => {
-  let photosMaxId = 0;
+  let photosMaxId = PHOTOS_MIN_ID;
   photos.forEach((photo) => photosMaxId = Math.max(photo.id, photosMaxId));
 
   const onDefaultBtnClick = (evt) =>  {
-    const currentPhotoElements = picturesContainerElement.querySelectorAll('a');
-    currentPhotoElements.forEach((photo) => photo.remove());
-    changeButtonsStyle(evt);
-    renderPhotos(photos);
+    if (filtersForm.dataset.filter !== 'default') {
+      removeCurrentPhotos(picturesContainerElement);
+      changeButtonsStyle(evt);
+      renderPhotos(photos);
+      filtersForm.dataset.filter = 'default';
+    }
   };
 
   const onRandomBtnClick = (evt) => {
-    const currentPhotoElements = picturesContainerElement.querySelectorAll('a');
-    currentPhotoElements.forEach((photo) => photo.remove());
-    changeButtonsStyle(evt);
-    const uniqueIntegerList = getRandomUniqueIntegerList(PHOTOS_MIN_ID, photosMaxId, RANDOM_PHOTOS_NUMBER);
-    const randomPhotos = photos.filter((photo) => uniqueIntegerList.includes(photo.id));
-    renderPhotos(randomPhotos);
+    if (filtersForm.dataset.filter !== 'random') {
+      removeCurrentPhotos(picturesContainerElement);
+      changeButtonsStyle(evt);
+      const uniqueIntegerList = getRandomUniqueIntegerList(PHOTOS_MIN_ID, photosMaxId, RANDOM_PHOTOS_NUMBER);
+      const randomPhotos = photos.filter((photo) => uniqueIntegerList.includes(photo.id));
+      renderPhotos(randomPhotos);
+      filtersForm.dataset.filter = 'random';
+    }
   };
 
   const onDiscussedBtnClick = (evt) => {
-    const currentPhotoElements = picturesContainerElement.querySelectorAll('a');
-    currentPhotoElements.forEach((photo) => photo.remove());
-    const photosCloned = [...photos];
-    photosCloned.sort((a, b) => b.comments.length - a.comments.length);
-    changeButtonsStyle(evt);
-    renderPhotos(photosCloned);
+    if (filtersForm.dataset.filter !== 'discussed') {
+      removeCurrentPhotos(picturesContainerElement);
+      changeButtonsStyle(evt);
+      const photosCloned = [...photos];
+      photosCloned.sort((a, b) => b.comments.length - a.comments.length);
+      renderPhotos(photosCloned);
+      filtersForm.dataset.filter = 'discussed';
+    }
   };
 
   defaultButton.addEventListener('click', debounce(onDefaultBtnClick));
