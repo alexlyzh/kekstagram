@@ -13,11 +13,27 @@ const getRandomInteger = (min, max) => {
   return Math.floor(rand);
 };
 
-const isValidLength = (string, maxLength) => string.length <= maxLength;
+/**
+ * Возвращает массив указанной длины, состоящий из неповторяющихся целых чисел в пределах указанного диапазона.
+ * @param min Нижняя граница диапазона
+ * @param max Верхняя граница диапазона
+ * @param length Длина массива
+ * @returns {*[]}
+ */
+const getRandomUniqueIntegerList = (min, max, length) => {
+  const list = [];
+  while (list.length !== length) {
+    const number = getRandomInteger(min, max);
+    if (!list.includes(number)) {
+      list.push(number);
+    }
+  }
+  return list;
+};
 
 const isEscKeydown = (evt) => evt.keyCode === 27;
 
 const hideElement = (el) => el.classList.add('hidden');
 const showElement = (el) => el.classList.remove('hidden');
 
-export {getRandomInteger, isValidLength, isEscKeydown, hideElement, showElement};
+export {getRandomInteger, getRandomUniqueIntegerList, isEscKeydown, hideElement, showElement};
