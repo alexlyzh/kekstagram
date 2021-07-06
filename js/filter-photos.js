@@ -18,37 +18,38 @@ const removeCurrentPhotos = (container) => {
 };
 
 const setImgFilters = (photos) => {
+  let selectedFilter = 'default';
   let photosMaxId = PHOTOS_MIN_ID;
   photos.forEach((photo) => photosMaxId = Math.max(photo.id, photosMaxId));
 
   const onDefaultBtnClick = (evt) =>  {
-    if (filtersForm.dataset.filter !== 'default') {
+    if (selectedFilter !== 'default') {
       removeCurrentPhotos(picturesContainerElement);
       changeButtonsStyle(evt);
       renderPhotos(photos);
-      filtersForm.dataset.filter = 'default';
+      selectedFilter = 'default';
     }
   };
 
   const onRandomBtnClick = (evt) => {
-    if (filtersForm.dataset.filter !== 'random') {
+    if (selectedFilter !== 'random') {
       removeCurrentPhotos(picturesContainerElement);
       changeButtonsStyle(evt);
       const uniqueIntegerList = getRandomUniqueIntegerList(PHOTOS_MIN_ID, photosMaxId, RANDOM_PHOTOS_NUMBER);
       const randomPhotos = photos.filter((photo) => uniqueIntegerList.includes(photo.id));
       renderPhotos(randomPhotos);
-      filtersForm.dataset.filter = 'random';
+      selectedFilter = 'random';
     }
   };
 
   const onDiscussedBtnClick = (evt) => {
-    if (filtersForm.dataset.filter !== 'discussed') {
+    if (selectedFilter !== 'discussed') {
       removeCurrentPhotos(picturesContainerElement);
       changeButtonsStyle(evt);
       const photosCloned = [...photos];
       photosCloned.sort((a, b) => b.comments.length - a.comments.length);
       renderPhotos(photosCloned);
-      filtersForm.dataset.filter = 'discussed';
+      selectedFilter = 'discussed';
     }
   };
 
