@@ -25,7 +25,6 @@ const setImgFilters = (photos) => {
   photos.forEach((photo) => photosMaxId = Math.max(photo.id, photosMaxId));
 
   const changeFilter = (evt, renderingPhotos) => {
-    console.log(evt, renderingPhotos);
     if (selectedFilter !== evt.target.id) {
       removeCurrentPhotos();
       renderPhotos(renderingPhotos);
