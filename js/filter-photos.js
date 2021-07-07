@@ -47,8 +47,7 @@ const setImgFilters = (photos) => {
   };
 
   const onFilterFormClick = (evt) => {
-    const filterButton = evt.target;
-    switch (filterButton.id) {
+    switch (evt.target.id) {
       case 'filter-default':
         setDefaultFilter(evt);
         break;

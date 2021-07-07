@@ -4,6 +4,7 @@ import {renderPhotos} from './photo/render-photos.js';
 import './form/image-upload-form.js';
 import './form/scale.js';
 import './form/slider.js';
+import './form/user-image-reader.js';
 
 const pageFooterElement = document.querySelector('.page-footer');
 const filtersElement = document.querySelector('.img-filters');
