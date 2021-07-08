@@ -16,6 +16,7 @@ const imgUploadPopupElement = imageUploadFormElement.querySelector('.img-upload_
 const btnImgUploadCloseElement = imageUploadFormElement.querySelector('#upload-cancel');
 const commentInputElement = imageUploadFormElement.querySelector('.text__description');
 const hashtagInputElement = document.querySelector('.text__hashtags');
+const formSubmitBtnElement = imageUploadFormElement.querySelector('.img-upload__submit');
 const hashtagRegexp = new RegExp('^#[A-Za-zА-Яа-я0-9]{1,19}$');
 
 const isImgUploadFormFieldActive = () => document.activeElement === hashtagInputElement || document.activeElement === commentInputElement;
@@ -95,10 +96,12 @@ const onFormSubmitError = () => {
 
 const onImgUploadFormSubmit = (evt) => {
   evt.preventDefault();
+  formSubmitBtnElement.disabled = true;
   sendFormData(
     onFormSubmitSuccess,
     onFormSubmitError,
     new FormData(evt.target));
+  formSubmitBtnElement.disabled = false;
 };
 
 inputFileElement.addEventListener('change', onImgUploadOpen);
