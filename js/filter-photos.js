@@ -2,15 +2,15 @@ import {getRandomUniqueIntegerList} from './utils/utils.js';
 import {renderPhotos, picturesContainerElement} from './photo/render-photos.js';
 import {debounce} from './utils/debounce.js';
 
-const filtersForm = document.querySelector('.img-filters__form');
-const filterButtons = document.querySelectorAll('.img-filters__button');
 const RERENDER_DELAY = 500;
 const PHOTOS_MIN_ID = 0;
 const RANDOM_PHOTOS_NUMBER = 10;
 const DEFAULT_FILTER = 'filter-default';
+const filtersFormElement = document.querySelector('.img-filters__form');
+const filterButtonElements = document.querySelectorAll('.img-filters__button');
 let selectedFilter = DEFAULT_FILTER;
 
-const changeButtonsStyle = (evt) => filterButtons.forEach((btn) => btn.classList.toggle('img-filters__button--active', btn === evt.target));
+const changeButtonsStyle = (evt) => filterButtonElements.forEach((btn) => btn.classList.toggle('img-filters__button--active', btn === evt.target));
 
 const removeCurrentPhotos = () => {
   const photos = picturesContainerElement.querySelectorAll('.picture');
@@ -47,8 +47,7 @@ const setImgFilters = (photos) => {
   };
 
   const onFilterFormClick = (evt) => {
-    const filterButton = evt.target;
-    switch (filterButton.id) {
+    switch (evt.target.id) {
       case 'filter-default':
         setDefaultFilter(evt);
         break;
@@ -60,7 +59,7 @@ const setImgFilters = (photos) => {
     }
   };
 
-  filtersForm.addEventListener('click', debounce(onFilterFormClick, RERENDER_DELAY));
+  filtersFormElement.addEventListener('click', debounce(onFilterFormClick, RERENDER_DELAY));
 };
 
 export {setImgFilters};

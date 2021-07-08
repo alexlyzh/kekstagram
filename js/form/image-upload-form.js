@@ -6,6 +6,7 @@ import {sendFormData} from '../api.js';
 
 const MAX_HASHTAG_LENGTH = 20;
 const MAX_HASHTAG_COUNT = 5;
+const DEFAULT_IMG_URL = 'img/upload-default-image.jpg';
 const imageUploadFormElement = document.querySelector('.img-upload__form');
 const inputFileElement = imageUploadFormElement.querySelector('#upload-file');
 const scaleSmallerElement = document.querySelector('.scale__control--smaller');
@@ -15,6 +16,7 @@ const imgUploadPopupElement = imageUploadFormElement.querySelector('.img-upload_
 const btnImgUploadCloseElement = imageUploadFormElement.querySelector('#upload-cancel');
 const commentInputElement = imageUploadFormElement.querySelector('.text__description');
 const hashtagInputElement = document.querySelector('.text__hashtags');
+const formSubmitBtnElement = imageUploadFormElement.querySelector('.img-upload__submit');
 const hashtagRegexp = new RegExp('^#[A-Za-zА-Яа-я0-9]{1,19}$');
 
 const isImgUploadFormFieldActive = () => document.activeElement === hashtagInputElement || document.activeElement === commentInputElement;
@@ -59,6 +61,8 @@ const onImgUploadClose = () => {
   document.body.classList.remove('modal-open');
   document.removeEventListener('keydown', onImgUploadEscKeydown); // eslint-disable-line no-use-before-define
   imageUploadFormElement.reset();
+  uploadingImageElement.src = DEFAULT_IMG_URL;
+  formSubmitBtnElement.disabled = false;
 };
 
 const onImgUploadOpen = () => {
@@ -93,6 +97,7 @@ const onFormSubmitError = () => {
 
 const onImgUploadFormSubmit = (evt) => {
   evt.preventDefault();
+  formSubmitBtnElement.disabled = true;
   sendFormData(
     onFormSubmitSuccess,
     onFormSubmitError,
