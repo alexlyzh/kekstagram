@@ -62,6 +62,7 @@ const onImgUploadClose = () => {
   document.removeEventListener('keydown', onImgUploadEscKeydown); // eslint-disable-line no-use-before-define
   imageUploadFormElement.reset();
   uploadingImageElement.src = DEFAULT_IMG_URL;
+  formSubmitBtnElement.disabled = false;
 };
 
 const onImgUploadOpen = () => {
@@ -87,13 +88,11 @@ const onImgUploadEscKeydown = (evt) => {
 const onFormSubmitSuccess = () => {
   showSubmitMessage('success');
   onImgUploadClose();
-  formSubmitBtnElement.disabled = false;
 };
 
 const onFormSubmitError = () => {
   showSubmitMessage('error');
   onImgUploadClose();
-  formSubmitBtnElement.disabled = false;
 };
 
 const onImgUploadFormSubmit = (evt) => {
