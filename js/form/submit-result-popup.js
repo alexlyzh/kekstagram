@@ -9,11 +9,11 @@ const onDocumentClick = (evt) => {
 
 const onSubmitMessageClose = () => {
   submitMessageElement.classList.add('hidden');
-  document.removeEventListener('keydown', onSubmitMessageEscKeydown); // eslint-disable-line no-use-before-define
+  document.removeEventListener('keydown', onDocumentEscKeydown); // eslint-disable-line no-use-before-define
   document.removeEventListener('click', onDocumentClick);
 };
 
-const onSubmitMessageEscKeydown = (evt) => {
+const onDocumentEscKeydown = (evt) => {
   if (evt.keyCode === 27) {
     onSubmitMessageClose();
   }
@@ -29,7 +29,7 @@ const showSubmitMessage = (result) => {
   btnCloseSubmitMessageElement = submitMessageElement.querySelector(`.${result}__button`);
   submitMessageElement.classList.remove('hidden');
   btnCloseSubmitMessageElement.addEventListener('click', onSubmitMessageClose);
-  document.addEventListener('keydown', onSubmitMessageEscKeydown);
+  document.addEventListener('keydown', onDocumentEscKeydown);
   document.addEventListener('click', onDocumentClick);
 };
 
