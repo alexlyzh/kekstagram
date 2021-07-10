@@ -19,7 +19,7 @@ const hashtagInputElement = document.querySelector('.text__hashtags');
 const formSubmitBtnElement = imageUploadFormElement.querySelector('.img-upload__submit');
 const hashtagRegexp = new RegExp('^#[A-Za-zА-Яа-я0-9]{1,19}$');
 
-const isImgUploadFormFieldActive = () => document.activeElement === hashtagInputElement || document.activeElement === commentInputElement;
+const getIsImgUploadFormFieldActive = () => document.activeElement === hashtagInputElement || document.activeElement === commentInputElement;
 
 const onHashtagInput = ()=> {
   let hashtags = hashtagInputElement.value.split(' ');
@@ -79,7 +79,7 @@ const onImgUploadOpen = () => {
 };
 
 const onImgUploadEscKeydown = (evt) => {
-  if (isEscKeydown(evt) && !isImgUploadFormFieldActive()) {
+  if (isEscKeydown(evt) && !getIsImgUploadFormFieldActive()) {
     evt.preventDefault();
     onImgUploadClose();
   }

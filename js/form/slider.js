@@ -1,7 +1,7 @@
 import {uploadingImageElement} from './image-upload-form.js';
 import '../../nouislider/nouislider.js';
 
-const SLIDER_RANGE_SETTINGS_FOR_IMG_FILTERS = {
+const SliderFiltersSettings = {
   chrome: {
     minValue: 0,
     maxValue: 100,
@@ -33,6 +33,7 @@ const SLIDER_RANGE_SETTINGS_FOR_IMG_FILTERS = {
     valueStep: 0.1,
   },
 };
+let currentFilter;
 
 const imageFilterElements = document.querySelectorAll('.effects__radio');
 const sliderElement = document.querySelector('.effect-level__slider');
@@ -58,10 +59,14 @@ const onSliderUpdate = (filterEffect, value) => {
   }
 };
 
-const updateSliderSettings = ({minValue, maxValue, startValue, valueStep}) => {
+const destroySlider = () => {
   if (sliderElement.noUiSlider) {
     sliderElement.noUiSlider.destroy();
   }
+};
+
+const updateSliderSettings = ({minValue, maxValue, startValue, valueStep}) => {
+  destroySlider();
   noUiSlider.create(sliderElement, {
     range: {
       min: minValue,
@@ -82,18 +87,24 @@ const updateSliderSettings = ({minValue, maxValue, startValue, valueStep}) => {
 
   sliderElement.noUiSlider.on('update', (values, handle) => {
     valueElement.value = ((values[handle] - minValue) / (maxValue - minValue) * 100).toFixed();
-    onSliderUpdate(uploadingImageElement.dataset.selectedFilter, values[handle]);
+    onSliderUpdate(currentFilter, values[handle]);
   });
 };
 
 const setDefaultImgFilter = () => {
-  if (sliderElement.noUiSlider) {
-    sliderElement.noUiSlider.destroy();
-  }
+  destroySlider();
   valueElement.value = '';
   uploadingImageElement.style.filter = '';
   uploadingImageElement.classList = '';
-  uploadingImageElement.dataset.selectedFilter = '';
+};
+
+const changeFilter = (filterName) => {
+  if (currentFilter) {
+    uploadingImageElement.classList.remove(`effects__preview--${currentFilter}`);
+  }
+  uploadingImageElement.style.filter = '';
+  uploadingImageElement.classList.add(`effects__preview--${filterName}`);
+  currentFilter = filterName;
 };
 
 const onImageFilterClick = (evt) => {
@@ -101,13 +112,10 @@ const onImageFilterClick = (evt) => {
   if (selectedFilter === 'none') {
     setDefaultImgFilter();
   } else {
-    uploadingImageElement.dataset.selectedFilter = selectedFilter;
-    const rangeSettings = SLIDER_RANGE_SETTINGS_FOR_IMG_FILTERS[selectedFilter];
+    const rangeSettings = SliderFiltersSettings[selectedFilter];
     updateSliderSettings(rangeSettings);
     sliderElement.noUiSlider.set(rangeSettings.maxValue);
-    uploadingImageElement.style.filter = '';
-    uploadingImageElement.classList = '';
-    uploadingImageElement.classList.add(`effects__preview--${selectedFilter}`);
+    changeFilter(selectedFilter);
   }
 };
 

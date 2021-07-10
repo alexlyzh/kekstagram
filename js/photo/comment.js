@@ -11,10 +11,7 @@ const createCommentHTML = ({avatar, name, message}, index) => `
       </li>`;
 
 const renderComments = (comments, container) => {
-  let commentsHTML = '';
-  comments.forEach( (comment, i) => {
-    commentsHTML += createCommentHTML(comment, i);
-  });
+  const commentsHTML = comments.reduce((html, comment, i) => html += createCommentHTML(comment, i),'');
   container.insertAdjacentHTML('afterbegin', commentsHTML);
   container.dataset.renderedComments = Math.min(comments.length, COMMENTS_RENDER_STEP);
 };

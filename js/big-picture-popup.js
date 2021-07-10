@@ -14,14 +14,14 @@ const commentsLoaderElement = bigPictureElement.querySelector('.comments-loader'
 const myCommentInputElement = bigPictureElement.querySelector('.social__footer-text');
 
 const onCommentLoaderClick = () => {
-  const commentsCollection = socialCommentsElement.querySelectorAll('.social__comment');
-  const commentsNumber = commentsCollection.length;
+  const commentElements = socialCommentsElement.querySelectorAll('.social__comment');
+  const commentsNumber = commentElements.length;
   const renderedCommentsCount = Number(socialCommentsElement.dataset.renderedComments);
   const renderStep = Math.min(commentsNumber, renderedCommentsCount + COMMENTS_RENDER_STEP);
 
   let commentsAdded = 0;
   for (let i = renderedCommentsCount; i < renderStep; i++) {
-    commentsCollection[i].classList.remove('hidden');
+    commentElements[i].classList.remove('hidden');
     commentsAdded++;
   }
   if (commentsNumber === renderedCommentsCount + commentsAdded) {
@@ -31,24 +31,24 @@ const onCommentLoaderClick = () => {
   socialCommentsElement.dataset.renderedComments = renderedCommentsCount + commentsAdded;
 };
 
-const onBigPictureClose = () => {
+const close = () => {
   hideElement(bigPictureElement);
   document.body.classList.remove('modal-open');
-  document.removeEventListener('keydown', onBigPicEscKeydown); // eslint-disable-line no-use-before-define
+  document.removeEventListener('keydown', onDocumentEscKeydown); // eslint-disable-line no-use-before-define
 };
 
-const onBigPictureOpen = () => {
+const open = () => {
   showElement(bigPictureElement);
   document.body.classList.add('modal-open');
-  document.addEventListener('keydown', onBigPicEscKeydown); // eslint-disable-line no-use-before-define
-  btnBigPictureCloseElement.addEventListener('click', onBigPictureClose);
+  document.addEventListener('keydown', onDocumentEscKeydown); // eslint-disable-line no-use-before-define
+  btnBigPictureCloseElement.addEventListener('click', close);
   commentsLoaderElement.addEventListener('click', onCommentLoaderClick);
 };
 
-const onBigPicEscKeydown = (evt) => {
+const onDocumentEscKeydown = (evt) => {
   if (isEscKeydown(evt) && !(document.activeElement === myCommentInputElement)) {
     evt.preventDefault();
-    onBigPictureClose();
+    close();
   }
 };
 
@@ -75,7 +75,7 @@ const bigPicturePopup = (photoEl, photoObj) => {
     commentsCountElement.textContent = photoObj.comments.length;
     socialDescriptionElement.textContent = photoObj.description;
     renderComments(photoObj.comments, socialCommentsElement);
-    onBigPictureOpen();
+    open();
   });
 };
 

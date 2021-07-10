@@ -13,8 +13,8 @@ let selectedFilter = DEFAULT_FILTER;
 const changeButtonsStyle = (evt) => filterButtonElements.forEach((btn) => btn.classList.toggle('img-filters__button--active', btn === evt.target));
 
 const removeCurrentPhotos = () => {
-  const photos = picturesContainerElement.querySelectorAll('.picture');
-  photos.forEach((photo) => photo.remove());
+  const photoElements = picturesContainerElement.querySelectorAll('.picture');
+  photoElements.forEach((photo) => photo.remove());
 };
 
 const changeFilter = (evt, renderingPhotos) => {
