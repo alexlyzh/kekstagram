@@ -18,6 +18,8 @@ const commentInputElement = imageUploadFormElement.querySelector('.text__descrip
 const hashtagInputElement = document.querySelector('.text__hashtags');
 const formSubmitBtnElement = imageUploadFormElement.querySelector('.img-upload__submit');
 const hashtagRegexp = new RegExp('^#[A-Za-zА-Яа-я0-9]{1,19}$');
+let onDocumentEscKeydown = null;
+let onImgUploadFormSubmit = null;
 
 const getIsImgUploadFormFieldActive = () => document.activeElement === hashtagInputElement || document.activeElement === commentInputElement;
 
@@ -59,7 +61,7 @@ const onImgUploadClose = () => {
   setDefaultImgFilter();
   hideElement(imgUploadPopupElement);
   document.body.classList.remove('modal-open');
-  document.removeEventListener('keydown', onImgUploadEscKeydown); // eslint-disable-line no-use-before-define
+  document.removeEventListener('keydown', onDocumentEscKeydown);
   imageUploadFormElement.reset();
   uploadingImageElement.src = DEFAULT_IMG_URL;
   formSubmitBtnElement.disabled = false;
@@ -70,15 +72,15 @@ const onImgUploadOpen = () => {
   setDefaultImgFilter();
   showElement(imgUploadPopupElement);
   document.body.classList.add('modal-open');
-  document.addEventListener('keydown', onImgUploadEscKeydown); // eslint-disable-line no-use-before-define
+  document.addEventListener('keydown', onDocumentEscKeydown);
   scaleSmallerElement.addEventListener('click', onScaleSmallerClick);
   scaleBiggerElement.addEventListener('click', onScaleBiggerClick);
   btnImgUploadCloseElement.addEventListener('click', onImgUploadClose);
   hashtagInputElement.addEventListener('input', onHashtagInput);
-  imageUploadFormElement.addEventListener('submit', onImgUploadFormSubmit); // eslint-disable-line no-use-before-define
+  imageUploadFormElement.addEventListener('submit', onImgUploadFormSubmit);
 };
 
-const onImgUploadEscKeydown = (evt) => {
+onDocumentEscKeydown = (evt) => {
   if (isEscKeydown(evt) && !getIsImgUploadFormFieldActive()) {
     evt.preventDefault();
     onImgUploadClose();
@@ -95,7 +97,7 @@ const onFormSubmitError = () => {
   onImgUploadClose();
 };
 
-const onImgUploadFormSubmit = (evt) => {
+onImgUploadFormSubmit = (evt) => {
   evt.preventDefault();
   formSubmitBtnElement.disabled = true;
   sendFormData(

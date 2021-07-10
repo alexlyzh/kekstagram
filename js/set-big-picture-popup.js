@@ -12,6 +12,7 @@ const commentsRenderedElement = bigPictureElement.querySelector('.comments-rende
 const commentsCountElement = bigPictureElement.querySelector('.comments-count');
 const commentsLoaderElement = bigPictureElement.querySelector('.comments-loader');
 const myCommentInputElement = bigPictureElement.querySelector('.social__footer-text');
+let onDocumentEscKeydown = null;
 
 const onCommentLoaderClick = () => {
   const commentElements = socialCommentsElement.querySelectorAll('.social__comment');
@@ -34,18 +35,18 @@ const onCommentLoaderClick = () => {
 const close = () => {
   hideElement(bigPictureElement);
   document.body.classList.remove('modal-open');
-  document.removeEventListener('keydown', onDocumentEscKeydown); // eslint-disable-line no-use-before-define
+  document.removeEventListener('keydown', onDocumentEscKeydown);
 };
 
 const open = () => {
   showElement(bigPictureElement);
   document.body.classList.add('modal-open');
-  document.addEventListener('keydown', onDocumentEscKeydown); // eslint-disable-line no-use-before-define
+  document.addEventListener('keydown', onDocumentEscKeydown);
   btnBigPictureCloseElement.addEventListener('click', close);
   commentsLoaderElement.addEventListener('click', onCommentLoaderClick);
 };
 
-const onDocumentEscKeydown = (evt) => {
+onDocumentEscKeydown = (evt) => {
   if (isEscKeydown(evt) && !(document.activeElement === myCommentInputElement)) {
     evt.preventDefault();
     close();
@@ -65,7 +66,7 @@ const checkCommentsNumber = (number) => {
   socialCommentsElement.classList.toggle('hidden', number === 0);
 };
 
-const bigPicturePopup = (photoEl, photoObj) => {
+const setBigPicturePopup = (photoEl, photoObj) => {
   photoEl.addEventListener('click', (evt) => {
     evt.preventDefault();
     socialCommentsElement.textContent = '';
@@ -79,4 +80,4 @@ const bigPicturePopup = (photoEl, photoObj) => {
   });
 };
 
-export {bigPicturePopup};
+export {setBigPicturePopup};
