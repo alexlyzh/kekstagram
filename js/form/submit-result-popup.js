@@ -1,5 +1,5 @@
-let submitMessageElement;
-let btnCloseSubmitMessageElement;
+let submitMessageElement = null;
+let btnCloseSubmitMessageElement = null;
 let onSubmitMessageClose = null;
 
 const onDocumentClick = (evt) => {
