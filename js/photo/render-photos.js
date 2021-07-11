@@ -1,5 +1,5 @@
 import {createPhotoElement} from './photo.js';
-import {setBigPicturePopup} from '../set-big-picture-popup.js';
+import {setBigPicturePopup} from '../big-picture-popup.js';
 
 const picturesFragment = document.createDocumentFragment();
 const picturesContainerElement = document.querySelector('.pictures');
